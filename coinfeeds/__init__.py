@@ -2,6 +2,24 @@ import os
 from urllib.parse import urljoin
 
 import httpx
+from pydantic import BaseModel
+
+
+class Coin(BaseModel):
+    id: str  # noqa: A003
+    name: str
+    symbol: str
+
+
+class News(BaseModel):
+    url: str
+    title: str
+    image: str
+    summary: str
+    newsSiteName: str  # noqa: N815
+    newsSiteLogo: str  # noqa: N815
+    publishDate: int  # noqa: N815
+    language: str
 
 
 class Coinfeeds:
@@ -22,39 +40,44 @@ class Coinfeeds:
             "x-api-key": self.api_key,
         }
 
-    def coins(self, **kwargs) -> list[dict]:
+    def coins(self, **kwargs) -> list[Coin]:
         url = urljoin(self.api_url, "/coins/list")
+        response = httpx.get(url, headers=self.headers(), **kwargs)
 
-        return httpx.get(url, headers=self.headers(), **kwargs)
+        return [Coin(**x) for x in response.json()]
 
-    def news(self, coin_name: str, *, symbol: bool = False, **kwargs) -> dict:
+    def news(self, coin_name: str, *, symbol: bool = False, **kwargs) -> list[News]:
         url = urljoin(
             self.api_url,
             f"/coins/{coin_name}/news?symbol={str(symbol).lower()}",
         )
+        response = httpx.get(url, headers=self.headers(), **kwargs)
 
-        return httpx.get(url, headers=self.headers(), **kwargs).json()
+        return [News(**x) for x in response.json()["newsFeed"]]
 
-    def tweets(self, coin_name: str, *, symbol: bool = False, **kwargs) -> dict:
+    def tweets(self, coin_name: str, *, symbol: bool = False, **kwargs) -> list[str]:
         url = urljoin(
             self.api_url,
             f"/coins/{coin_name}/tweets?symbol={str(symbol).lower()}",
         )
+        response = httpx.get(url, headers=self.headers(), **kwargs).json()
 
-        return httpx.get(url, headers=self.headers(), **kwargs).json()
+        return response["tweet_ids"]
 
-    def podcasts(self, coin_name: str, *, symbol: bool = False, **kwargs) -> dict:
+    def podcasts(self, coin_name: str, *, symbol: bool = False, **kwargs) -> list[str]:
         url = urljoin(
             self.api_url,
             f"/coins/{coin_name}/podcasts?symbol={str(symbol).lower()}",
         )
+        response = httpx.get(url, headers=self.headers(), **kwargs).json()
 
-        return httpx.get(url, headers=self.headers(), **kwargs).json()
+        return response["podcast_ids"]
 
-    def videos(self, coin_name: str, *, symbol: bool = False, **kwargs) -> dict:
+    def videos(self, coin_name: str, *, symbol: bool = False, **kwargs) -> list[str]:
         url = urljoin(
             self.api_url,
             f"/coins/{coin_name}/videos?symbol={str(symbol).lower()}",
         )
+        response = httpx.get(url, headers=self.headers(), **kwargs).json()
 
-        return httpx.get(url, headers=self.headers(), **kwargs).json()
+        return response["video_ids"]
