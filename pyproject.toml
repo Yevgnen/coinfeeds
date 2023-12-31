@@ -1,6 +1,6 @@
 [project]
 name = "coinfeeds"
-version = "0.0.2"
+version = "0.0.3"
 description = "Add your description here"
 authors = [
     { name = "Yevgnen Koh", email = "wherejoystarts@gmail.com" }
