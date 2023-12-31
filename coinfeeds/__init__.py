@@ -14,7 +14,7 @@ class Coin(BaseModel):
 class News(BaseModel):
     url: str
     title: str
-    image: str
+    image: str | None
     summary: str
     newsSiteName: str  # noqa: N815
     newsSiteLogo: str | None  # noqa: N815
