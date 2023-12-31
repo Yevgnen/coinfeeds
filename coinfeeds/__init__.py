@@ -49,7 +49,7 @@ class Coinfeeds:
     def news(self, coin_name: str, *, symbol: bool = False, **kwargs) -> list[News]:
         url = urljoin(
             self.api_url,
-            f"/coins/{coin_name}/news?symbol={str(symbol).lower()}",
+            f"/coins/{coin_name.lower()}/news?symbol={str(symbol).lower()}",
         )
         response = httpx.get(url, headers=self.headers(), **kwargs)
 
@@ -58,7 +58,7 @@ class Coinfeeds:
     def tweets(self, coin_name: str, *, symbol: bool = False, **kwargs) -> list[str]:
         url = urljoin(
             self.api_url,
-            f"/coins/{coin_name}/tweets?symbol={str(symbol).lower()}",
+            f"/coins/{coin_name.lower()}/tweets?symbol={str(symbol).lower()}",
         )
         response = httpx.get(url, headers=self.headers(), **kwargs).json()
 
@@ -67,7 +67,7 @@ class Coinfeeds:
     def podcasts(self, coin_name: str, *, symbol: bool = False, **kwargs) -> list[str]:
         url = urljoin(
             self.api_url,
-            f"/coins/{coin_name}/podcasts?symbol={str(symbol).lower()}",
+            f"/coins/{coin_name.lower()}/podcasts?symbol={str(symbol).lower()}",
         )
         response = httpx.get(url, headers=self.headers(), **kwargs).json()
 
@@ -76,7 +76,7 @@ class Coinfeeds:
     def videos(self, coin_name: str, *, symbol: bool = False, **kwargs) -> list[str]:
         url = urljoin(
             self.api_url,
-            f"/coins/{coin_name}/videos?symbol={str(symbol).lower()}",
+            f"/coins/{coin_name.lower()}/videos?symbol={str(symbol).lower()}",
         )
         response = httpx.get(url, headers=self.headers(), **kwargs).json()
 
