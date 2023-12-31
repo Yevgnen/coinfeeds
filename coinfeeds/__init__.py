@@ -17,7 +17,7 @@ class News(BaseModel):
     image: str
     summary: str
     newsSiteName: str  # noqa: N815
-    newsSiteLogo: str  # noqa: N815
+    newsSiteLogo: str | None  # noqa: N815
     publishDate: float  # noqa: N815
     language: str
 
