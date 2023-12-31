@@ -18,7 +18,7 @@ class News(BaseModel):
     summary: str
     newsSiteName: str  # noqa: N815
     newsSiteLogo: str  # noqa: N815
-    publishDate: int  # noqa: N815
+    publishDate: float  # noqa: N815
     language: str
 
 
